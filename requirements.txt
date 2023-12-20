@@ -57,14 +57,12 @@ draftjs-exporter==2.1.7
 EasyProcess==0.3
 entrypoint2==0.2.4
 et-xmlfile==1.1.0
-examplepackage @ file:///F:/ENCODEMY/code/Package/Game
 face-recognition-models==0.3.0
 filelock==3.3.0
 Flask==2.2.2
 flatbuffers==1.12
 fonttools==4.38.0
 freetype-py==2.3.0
-Game @ file:///F:/ENCODEMY/code/Package
 gast==0.4.0
 ghs==0.1.3
 google-auth==2.6.6

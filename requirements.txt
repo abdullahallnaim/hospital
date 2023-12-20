@@ -1,7 +1,7 @@
 
 django-email==0.1.10
 django-environ==0.9.0
-django-filter==23.
+django-filter==23.2
 Pillow==10.1.0
 pipenv==2021.5.29
 asgiref==3.7.2

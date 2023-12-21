@@ -1,3 +1,14 @@
 Django
+django-bootstrap-v5
+django-bootstrap4
+django-cors-headers
+django-cors-middleware
+django-crispy-forms
+django-email
+django-environ
+django-filter
 Pillow
+pipenv
+sqlparse
 djangorestframework
+

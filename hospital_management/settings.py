@@ -78,15 +78,15 @@ WSGI_APPLICATION = 'hospital_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
-    'default': dj_database_url.parse("postgres://hospital_ix6l_user:FoPZfSszkovgkAbhxLnAX2au8I9qGWtd@dpg-cm1ccpgcmk4c73d8bjv0-a.oregon-postgres.render.com/hospital_ix6l")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+# DATABASES = {
+#     'default': dj_database_url.parse("postgres://hospital_ix6l_user:FoPZfSszkovgkAbhxLnAX2au8I9qGWtd@dpg-cm1ccpgcmk4c73d8bjv0-a.oregon-postgres.render.com/hospital_ix6l")
+# }
 
 
 # Password validation

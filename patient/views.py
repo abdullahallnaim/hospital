@@ -35,7 +35,7 @@ class UserRegistrationAPIView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             
             # Prepare and send email
-            confirmation_link = f"http://127.0.0.1:8000/patient/activate/{uid}/{token}/"  # Replace with your confirmation URL
+            confirmation_link = f"https://testing-8az5.onrender.com/patient/activate/{uid}/{token}/"  # Replace with your confirmation URL
             email_subject = 'Confirm your email'
             email_body = render_to_string('register_email.html', {'confirmation_link': confirmation_link})
 

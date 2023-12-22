@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'patient',
     'appoinments',
     'doctor',
+    'services',
     'rest_framework',
     'rest_framework.authtoken'
 ]

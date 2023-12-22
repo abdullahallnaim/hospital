@@ -3,7 +3,7 @@ from rest_framework import routers
 from .views import DoctorViewSet, DepartmentViewSet, AvailableTimeViewSet,DesignationViewSet,SpecializationViewSet, ScheduleTimeViewSet,DoctorAvailableTimeView
 
 router = routers.DefaultRouter()
-router.register('doctors', DoctorViewSet)
+router.register('list', DoctorViewSet)
 router.register('departments', DepartmentViewSet)
 router.register('doctors_time', AvailableTimeViewSet)
 router.register('designation', DesignationViewSet)

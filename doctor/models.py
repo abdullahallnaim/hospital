@@ -28,9 +28,10 @@ class Doctor(models.Model):
     available_time = models.ManyToManyField(AvailableTime)
     fee = models.IntegerField()
     meet_link = models.CharField(max_length=100, blank = True, null = True)
+    
     def __str__(self):
     #     return 
-        return f"{self.user.first_name} {self.user.last_name} {', '.join(str(designation) for designation in self.designation.all())}"
+        return f"{self.user.first_name} {self.user.last_name}"
 
 
 

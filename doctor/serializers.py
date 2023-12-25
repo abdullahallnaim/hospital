@@ -19,7 +19,10 @@ class AvailableTimeSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     designation = serializers.StringRelatedField(many=True)
     specialization = serializers.StringRelatedField(many=True)
-    available_time = serializers.StringRelatedField(many=False)
+    available_time = serializers.StringRelatedField(many=True)
+    full_name = serializers.SerializerMethodField()
     class Meta:
         model = Doctor
-        fields = '__all__'
+        fields = ['id', 'full_name', 'image', 'designation', 'specialization', 'available_time', 'fee', 'meet_link']
+    def get_full_name(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}" if obj.user else None

@@ -6,9 +6,9 @@ from django.template.loader import render_to_string
 # admin.site.register(models.Appointment)
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'doctor', 'patient', 'appointment_status', 'appointment_type', 'time')
-    list_filter = ('doctor', 'patient', 'appointment_status', 'appointment_type')
-    search_fields = ('doctor__user__username', 'patient__user__username', 'appointment_status')
+    # list_display = ('id', 'doctor', 'patient', 'appointment_status', 'appointment_type', 'time')
+    # list_filter = ('doctor', 'patient', 'appointment_status', 'appointment_type')
+    # search_fields = ('doctor__user__username', 'patient__user__username', 'appointment_status')
 
     def save_model(self, request, obj, form, change):
         # if obj.appointment_status == 'Running' and obj.appointment_type == 'Offline' and 'appointment_status' in form.changed_data:

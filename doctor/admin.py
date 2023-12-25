@@ -22,7 +22,14 @@ from django import forms
 from . import models
 # Register your models here.
 admin.site.register(models.Doctor)
-admin.site.register(models.Department)
-admin.site.register(models.Designation)
-admin.site.register(models.ScheduleTime)
-admin.site.register(models.Specialization)
+admin.site.register(models.AvailableTime)
+
+class DesignationAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug' : ('name',)}
+    list_display = ['name', 'slug']
+class SpecializationAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug' : ('name',)}
+    list_display = ['name', 'slug']
+    
+admin.site.register(models.Designation, DesignationAdmin)
+admin.site.register(models.Specialization, SpecializationAdmin)

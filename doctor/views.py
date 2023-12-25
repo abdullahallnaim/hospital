@@ -22,30 +22,18 @@ class DoctorPagination(pagination.PageNumberPagination):
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = models.Doctor.objects.all()
     filter_backends = [filters.SearchFilter]
-    search_fields = ['user__first_name','department__name', 'designation__name']
+    search_fields = ['user__first_name','specialization__name', 'designation__name']
     serializer_class = serializers.DoctorSerializer
     pagination_class = DoctorPagination
 
-class DepartmentViewSet(viewsets.ModelViewSet):
-    queryset = models.Department.objects.all()
-    serializer_class = serializers.DepartmentSerializer
 class SpecializationViewSet(viewsets.ModelViewSet):
     queryset = models.Specialization.objects.all()
     serializer_class = serializers.SpecializationSerializer
+
 class AvailableTimeViewSet(viewsets.ModelViewSet):
-    queryset = models.AvialableTimeForDoctor.objects.all()
+    queryset = models.AvailableTime.objects.all()
     serializer_class = serializers.AvailableTimeSerializer
-class ScheduleTimeViewSet(viewsets.ModelViewSet):
-    queryset = models.ScheduleTime.objects.all()
-    serializer_class = serializers.AvailableTimeSerializer
+    
 class DesignationViewSet(viewsets.ModelViewSet):
     queryset = models.Designation.objects.all()
     serializer_class = serializers.DesignationSerializer
-
-
-class DoctorAvailableTimeView(ListAPIView):
-    serializer_class = serializers.AvailableTimeSerializer
-
-    def get_queryset(self):
-        doctor_id = self.kwargs.get('doctor_id')  # Assuming 'doctor_id' is passed in the URL
-        return models.AvialableTimeForDoctor.objects.filter(doctor__id=doctor_id)

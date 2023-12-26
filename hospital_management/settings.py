@@ -57,6 +57,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = ['https://testing-8az5.onrender.com']
 ROOT_URLCONF = 'hospital_management.urls'
 
 TEMPLATES = [

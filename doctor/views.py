@@ -37,3 +37,15 @@ class AvailableTimeViewSet(viewsets.ModelViewSet):
 class DesignationViewSet(viewsets.ModelViewSet):
     queryset = models.Designation.objects.all()
     serializer_class = serializers.DesignationSerializer
+class ReviewViewSet(viewsets.ModelViewSet):
+    # queryset = models.Review.objects.all()
+    serializer_class = serializers.ReviewSerializer
+    queryset = models.Review.objects.all()  # Retrieve all reviews by default
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        doctor_id = self.request.query_params.get('doctor_id')
+        print(doctor_id)
+        if doctor_id:
+            queryset = queryset.filter(doctor_id=doctor_id)
+        return queryset

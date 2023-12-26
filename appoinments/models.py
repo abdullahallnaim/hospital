@@ -19,7 +19,7 @@ class Appointment(models.Model):
     appointment_status = models.CharField(max_length=30, choices=APPOINTMENT_STATUS)
     symptom = models.TextField()
     time = models.ForeignKey(AvailableTime,on_delete = models.SET_NULL, null = True, blank = True)
-    
+    cancel = models.BooleanField(default = False)
     def __str__(self):
         return f"Doctor Dr.{self.doctor.user.username} Patient : {self.patient.user.username}"
     

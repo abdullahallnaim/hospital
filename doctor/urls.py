@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-from .views import DoctorViewSet,  AvailableTimeViewSet,DesignationViewSet,SpecializationViewSet
+from .views import DoctorViewSet,  AvailableTimeViewSet,DesignationViewSet,SpecializationViewSet, ReviewViewSet
 
 router = routers.DefaultRouter()
 router.register('list', DoctorViewSet)
@@ -8,6 +8,7 @@ router.register('doctors_time', AvailableTimeViewSet)
 router.register('designation', DesignationViewSet)
 router.register('specialization', SpecializationViewSet)
 router.register('availabletime', AvailableTimeViewSet)
+router.register('review', ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

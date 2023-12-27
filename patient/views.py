@@ -22,6 +22,11 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User 
+
+
+from . import models
+from . import serializers
 class UserRegistrationAPIView(APIView):
     serializer_class = UserSerializer
 
@@ -96,3 +101,8 @@ class Logout(APIView):
     def post(self, request, *args, **kwargs):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class PatientViewSet(viewsets.ModelViewSet):
+    queryset = models.Patient.objects.all()
+    serializer_class = serializers.PatientSerializer

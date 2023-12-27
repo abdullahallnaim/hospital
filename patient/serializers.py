@@ -1,6 +1,13 @@
 # serializers.py
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from . import models
+
+class PatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Patient
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True, required=True)  # New field

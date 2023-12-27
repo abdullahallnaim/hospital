@@ -25,18 +25,46 @@ class DoctorViewSet(viewsets.ModelViewSet):
     search_fields = ['user__first_name','specialization__name', 'designation__name']
     serializer_class = serializers.DoctorSerializer
     pagination_class = DoctorPagination
+    
+# class AvailableTimeViewSet(viewsets.ModelViewSet):
+#     queryset = models.AvailableTime.objects.all()
+#     serializer_class = serializers.AvailableTimeSerializer
 
-class SpecializationViewSet(viewsets.ModelViewSet):
-    queryset = models.Specialization.objects.all()
-    serializer_class = serializers.SpecializationSerializer
+from rest_framework import viewsets, filters
+
+
+class AvailableTimeFilterBackend(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        doctor_id = request.query_params.get('doctor_id')  # Assuming doctor_id is passed as a query parameter
+        if doctor_id:
+            return queryset.filter(doctor=doctor_id)
+        return queryset
 
 class AvailableTimeViewSet(viewsets.ModelViewSet):
     queryset = models.AvailableTime.objects.all()
     serializer_class = serializers.AvailableTimeSerializer
+    filter_backends = [AvailableTimeFilterBackend]
+    
+    
+class SpecializationViewSet(viewsets.ModelViewSet):
+    queryset = models.Specialization.objects.all()
+    serializer_class = serializers.SpecializationSerializer
+
+
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        doctor_id = self.request.query_params.get('doctor_id')
+        print(doctor_id)
+        if doctor_id:
+            queryset = queryset.filter(doctor_id=doctor_id)
+        return queryset
     
 class DesignationViewSet(viewsets.ModelViewSet):
     queryset = models.Designation.objects.all()
     serializer_class = serializers.DesignationSerializer
+    
+    
 class ReviewViewSet(viewsets.ModelViewSet):
     # queryset = models.Review.objects.all()
     serializer_class = serializers.ReviewSerializer

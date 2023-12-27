@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib.sites.shortcuts import get_current_site
 # verify email
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -38,7 +38,7 @@ class UserRegistrationAPIView(APIView):
             # Generate email confirmation token
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            
+            current_site = get_current_site(request)
             # Prepare and send email
             confirmation_link = f"https://testing-8az5.onrender.com/patient/activate/{uid}/{token}/"  # Replace with your confirmation URL
             email_subject = 'Confirm your email'
@@ -58,17 +58,13 @@ class UserRegistrationAPIView(APIView):
 def activate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
-        user = User.objects.get(pk=uid)
+        user = User._default_manager.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
-        token = Token.objects.create(token)
-        token.save()
-        # data['token'] = token
         user.save()
-        # messages.success(request, 'Congratulations! Your account is activated.')
         return redirect('login')
     else:
         # messages.error(request, 'Invalid activation link')

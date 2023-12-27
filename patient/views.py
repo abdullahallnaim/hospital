@@ -24,9 +24,17 @@ from django.core.mail import EmailMessage
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User 
 
-
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
 from . import models
 from . import serializers
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
 class UserRegistrationAPIView(APIView):
     serializer_class = UserSerializer
 
@@ -70,11 +78,7 @@ def activate(request, uidb64, token):
         # messages.error(request, 'Invalid activation link')
         return redirect('register')
 
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate
+
 
 class UserLoginAPIView(APIView):
     def post(self, request):
@@ -86,17 +90,39 @@ class UserLoginAPIView(APIView):
 
             if user:
                 token, _ = Token.objects.get_or_create(user=user)
-                return Response({'token': token.key})
+                return Response({'token': token.key, 'user_id' : user.id})
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+class UserDetailsAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user  # This will contain the authenticated user
+        # You can serialize the user data as needed
+        serialized_user_data = {
+            'username': user.username,
+            'email': user.email,
+            # Add other user details you want to retrieve
+        }
+        return Response(serialized_user_data, status=status.HTTP_200_OK)
     
-    
-class Logout(APIView):
-    def post(self, request, *args, **kwargs):
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+class UserLogoutAPIView(APIView):
+    def post(self, request):
+        try:
+            # Get the user's token from the request headers
+            token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1]
+            token = Token.objects.get(key=token_key)
+            # Delete the token
+            token.delete()
+            return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+        except Token.DoesNotExist:
+            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+        except AttributeError:
+            return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PatientViewSet(viewsets.ModelViewSet):

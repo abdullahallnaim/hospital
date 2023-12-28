@@ -33,6 +33,7 @@ from . import models
 from . import serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import filters
 
 
 class UserRegistrationAPIView(APIView):
@@ -125,6 +126,26 @@ class UserLogoutAPIView(APIView):
             return Response({'error': 'Token not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+# class PatientViewSet(filters.BaseFilterBackend):
+#     # queryset = User.objects.all()
+#     # serializer_class = serializers.PatientSerializer
+    
+#     def filter_queryset(self, request, queryset, view):
+#         user_id = request.query_params.get('user_id')  # Assuming doctor_id is passed as a query parameter
+#         if user_id:
+#             return queryset.filter(user=user_id)
+#         return queryset
+    
+class UserFilterBackend(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        user_id = request.query_params.get('user_id')  # Assuming doctor_id is passed as a query parameter
+        if user_id:
+            return queryset.filter(user=user_id)
+        return queryset
+
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = models.Patient.objects.all()
     serializer_class = serializers.PatientSerializer
+    filter_backends = [UserFilterBackend]

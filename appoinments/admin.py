@@ -14,7 +14,7 @@ class AppointmentAdmin(admin.ModelAdmin):
         # if obj.appointment_status == 'Running' and obj.appointment_type == 'Offline' and 'appointment_status' in form.changed_data:
         #     obj.send_email_to_patient()  # Assuming you have defined send_email_to_patient in the Appointment model
         obj.save()
-        if obj.appointment_status == 'Running' and obj.appointment_type == 'Offline':
+        if obj.appointment_status == 'Running' and obj.appointment_type == 'Online':
             message = render_to_string("admin_email.html", {
                 'user' : obj.patient.user,
                 'doctor' : obj.doctor,
